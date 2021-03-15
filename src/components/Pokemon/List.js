@@ -20,9 +20,6 @@ function List({ data, onActionPress, ...others }) {
     />
   );
 
-  const EmptyMessage = ({ text }) => (
-       <Text>No Data Found!</Text>
-  );
 
   const renderItem = ({ item }) => {
         return(<ListItem {...item} onPress={() => onActionPress(item)}/>)
@@ -36,7 +33,6 @@ function List({ data, onActionPress, ...others }) {
       renderItem={renderItem}
       keyExtractor={(item, index) => index.toString()}
       style={styles.container}
-      ListEmptyComponent={<EmptyMessage/>}
       {...others}
     />
   );

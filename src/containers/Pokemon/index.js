@@ -46,7 +46,6 @@ const PokemonListScreen = (props) => {
     const {navigation, pokemon, actions} = props;
     const [pokemonList, setPokemon] = useState(pokemon.form.fields.data);
     const [clientData, setClientData] = useState([]);
-    //const [isFetching, setFetching] = useState(false);
 
 
     const [limit] = useState(LIMIT);
@@ -86,7 +85,7 @@ const PokemonListScreen = (props) => {
 
 
     const onRefresh = () => {
-       setPage(1);
+          setPage(1);
     };
 
 
@@ -100,7 +99,7 @@ const PokemonListScreen = (props) => {
 
         switch(val){
                   case DEFAULT_OPTION:
-                        onRefresh;
+                       actions.getAllPokemon("?limit=" + PAGE * limit, "")
                   break;
 
                   case UPGRADE_OPTION:
