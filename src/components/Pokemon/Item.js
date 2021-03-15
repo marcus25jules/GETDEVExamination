@@ -13,13 +13,13 @@ import { StyledText } from "components";
 import { scale } from "utils/scale";
 
 
-function Item({ name, onPress, ...others }) {
+function Item({ name, ...others }) {
 
   var url = others.url;
   const id = (url.replace(baseURL + CONSTANT.ALL_POKEMON, "")).slice(0, -1);
 
   return (
-    <ListItem thumbnail onPress={onPress}>
+    <ListItem thumbnail>
               <View style={{flexDirection: "row"}}>
                 <StyledText size={24}>
                       {name}
@@ -51,10 +51,7 @@ const styles = StyleSheet.create({
 });
 
 Item.propTypes = {
-  name: PropTypes.string.isRequired,
-//  id: PropTypes.number.isRequired,
-//  image: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  name: PropTypes.string.isRequired
 };
 
 export default Item;

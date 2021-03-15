@@ -58,8 +58,11 @@ export function onPokemonFormFieldChange (field, value) {
   }
 }
 
+export function startsWith(item) {
+  return item.toLowerCase().indexOf('a') === 0;
+}
 
-export function getAllPokemon(url, filterOption = "") {
+export function getAllPokemon(url, filterOption) {
 
     return dispatch  => {
         dispatch(pokemonRequest());
@@ -68,11 +71,10 @@ export function getAllPokemon(url, filterOption = "") {
           if (typeof response !== 'undefined') {
             if(response.results.length > 0){
               var payload = [];
-                console.log(filterOption);
                 if(filterOption !== ""){
                       //filter pokemon with letter a
-                      response.results = response.results.filter((res) => res.startsWith(filterOption));
-                      console.log(startsWithN);
+                      response.results = response.results.filter((res) => res.filter(startsWith));
+                      console.log("res: ",response.results);
                 }
                 dispatch(pokemonSuccess(response));
             }
