@@ -71,8 +71,7 @@ export function getAllPokemon(url, filterOption) {
               var payload = [];
                 if(filterOption !== ""){
                       //filter pokemon with letter a
-                      response.results = response.results.filter(s => s.toLowerCase().indexOf(filterOption) == 0)
-                      console.log("res: ",response.results);
+                      response.results = response.results.filter((r) => r.name.startsWith("a"));
                 }
                 dispatch(pokemonSuccess(response));
             }
