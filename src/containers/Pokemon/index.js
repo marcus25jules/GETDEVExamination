@@ -113,7 +113,7 @@ const PokemonListScreen = (props) => {
 
         switch(val){
                   case DEFAULT_OPTION:
-                        onRefresh;
+                        onRefresh();
                   break;
 
                   case UPGRADE_OPTION:
