@@ -44,7 +44,7 @@ const ULTIMATE_OPTION = "Ultimate";
 const PokemonListScreen = (props) => {
 
     const {navigation, pokemon, actions} = props;
-    const [pokemonList, setPokemon] = useState(pokemon.form.fields.data);
+    const [pokemonList, setPokemon] = useState([]);
     const [clientData, setClientData] = useState([]);
 
 
@@ -59,33 +59,47 @@ const PokemonListScreen = (props) => {
     const [option, setOption] = useState(DEFAULT_OPTION);
 
 
-
     useEffect(() => {
         if(pokemon.form.isFetching){
            actions.getAllPokemon("?limit=" + page * LIMIT, "");
         }
-
     },[]);
 
 
     useEffect(() => {
-        setClientData(pokemon.form.fields.data);
-    },pokemon.form.fields.data);
+        console.log('load more with page', page);
+        if (pokemon.form.fields.data.length == limit || page == 1) {
+          setPending_process(true);
+          actions.getAllPokemon("?limit=" + page * limit, "")
+        }
+      }, [page]);
 
 
     useEffect(() => {
-         actions.getAllPokemon("?limit=" + page * limit, "")
-    }, [page]);
+     if(pokemon.form.fields.data !== null) {
+         if (pokemon.form.fields.data.length > 0) {
+            setRefresh(false);
+            setClientData(pokemon.form.fields.data);
+            setLoadmore(pokemon.form.fields.data.length == limit ? true : false);
+            setPending_process(false);
+         } else {
+            setLoadmore(false);
+         }
+      }
+     }, [pokemon.form.fields.data]);
+
 
 
 
     const handleLoadMore = () => {
-         setPage(page + 1);
-    };
-
+        if (loadmore && !pending_process) {
+          setPage(page + 1);
+        }
+     };
 
     const onRefresh = () => {
-          setPage(1);
+          actions.getAllPokemon("?limit=" + PAGE * limit, "");
+          setOption(DEFAULT_OPTION);
     };
 
 
@@ -99,7 +113,7 @@ const PokemonListScreen = (props) => {
 
         switch(val){
                   case DEFAULT_OPTION:
-                       actions.getAllPokemon("?limit=" + PAGE * limit, "")
+                        onRefresh;
                   break;
 
                   case UPGRADE_OPTION:
@@ -133,12 +147,6 @@ const PokemonListScreen = (props) => {
     }
 
 
-    const getPokemonNameStartsWithLetterA = () => {
-          setPage(1);
-    }
-
-
-
     return (
         <Container>
             <ScreensHeader
@@ -170,6 +178,8 @@ const PokemonListScreen = (props) => {
               ListFooterComponent={renderFooter}
               onEndReached={handleLoadMore}
               onRefresh={() => onRefresh()}
+              onEndReachedThreshold={10}
+              scrollEventThrottle={150}
             />
         </Container>
     );
